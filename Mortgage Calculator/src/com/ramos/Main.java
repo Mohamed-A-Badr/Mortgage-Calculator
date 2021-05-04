@@ -28,9 +28,7 @@ public class Main {
         return value;
     }
 
-    public static double calculateMortage (int principal,
-                                           float annualInterest,
-                                           byte years) {
+    public static double calculateMortage (int principal, float annualInterest, byte years) {
         final byte MONTH_IN_YEAR = 12;
         final byte PERCENT = 100;
 
