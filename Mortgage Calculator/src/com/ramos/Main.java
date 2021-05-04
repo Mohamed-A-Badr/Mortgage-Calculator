@@ -1,4 +1,5 @@
 package com.ramos;
+import java.text.Format;
 import java.text.NumberFormat;
 import java.util.Scanner;
 
@@ -7,22 +8,46 @@ public class Main {
         final byte MONTH_IN_YEAR = 12;
         final byte PERCENT = 100;
 
-        Scanner input = new Scanner(System.in);
-        System.out.print("Principle: ");
-        int principal = input.nextInt();
+        int principal = 0;
+        float annualInterest = 0, monthlyInterest = 0;
+        byte year = 0;
+        short numberOfPayment = 0;
 
-        System.out.print("Annual Interest Rate: ");
-        float annualRate = input.nextFloat();
-        float monthRate = (annualRate / PERCENT) / MONTH_IN_YEAR;
+        Scanner in = new Scanner(System.in);
 
-        System.out.print("Period (Years): ");
-        float periodYear = input.nextFloat();
-        float periodMonth = periodYear * MONTH_IN_YEAR;
+        while(true){
+            System.out.print("Principal: ");
+            principal = in.nextInt();
+            if(principal >= 1000 && principal <= 1_000_000)
+                break;
+            System.out.println("Enter a value between 1000 and 1000000.");
+        }
 
-        double mortgageResult = principal
-                * ((monthRate * Math.pow(1 + monthRate, periodMonth)
-                / (Math.pow(1 + monthRate, periodMonth) - 1)));
-        String Mortgage = NumberFormat.getCurrencyInstance().format(mortgageResult);
-        System.out.println("Mortgage: " + Mortgage);
+        while(true){
+            System.out.print("Annual Interest Rate: ");
+            annualInterest = in.nextFloat();
+            if(annualInterest >= 1 && annualInterest <= 30) {
+                monthlyInterest = (annualInterest / PERCENT) / MONTH_IN_YEAR;
+                break;
+            }
+            System.out.println("Enter a value between 1 and 30.");
+        }
+
+        while (true) {
+            System.out.print("Period (years): ");
+            year = in.nextByte();
+            if(year >= 1 && year <= 30) {
+                numberOfPayment = (short) (year * MONTH_IN_YEAR);
+                break;
+            }
+            System.out.println("Enter a value between 1 and 30.");
+        }
+
+        double mortgage = principal
+                * ((monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayment)
+                / (Math.pow(1 + monthlyInterest, numberOfPayment) - 1)));
+
+        String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
+        System.out.println("Mortgage: " + mortgageFormatted);
     }
 }
